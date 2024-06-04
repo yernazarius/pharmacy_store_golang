@@ -4,11 +4,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/yourusername/yourprojectname/configs"
-	"github.com/yourusername/yourprojectname/internal/infrastructure/db/postgres"
-	"github.com/yourusername/yourprojectname/internal/infrastructure/http"
-	"github.com/yourusername/yourprojectname/internal/infrastructure/messaging/nats"
-	"github.com/yourusername/yourprojectname/internal/middleware"
+	"github.com/yernazarius/pharmacy_store_golang/configs"
+	"github.com/yernazarius/pharmacy_store_golang/internal/infrastructure/db/postgres"
+	"github.com/yernazarius/pharmacy_store_golang/internal/infrastructure/http"
+	"github.com/yernazarius/pharmacy_store_golang/internal/infrastructure/messaging/nats"
+	"github.com/yernazarius/pharmacy_store_golang/internal/middleware"
 )
 
 func main() {

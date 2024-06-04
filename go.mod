@@ -1,4 +1,4 @@
-module pharmacy-store
+module github.com/yernazarius/pharmacy_store_golang
 
 go 1.21.0
 

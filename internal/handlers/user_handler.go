@@ -1,35 +1,33 @@
 package handlers
 
 import (
+	"database/sql"
+	"encoding/json"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/yernazarius/pharmacy_store_golang/internal/domain/services"
+	"github.com/yernazarius/pharmacy_store_golang/internal/infrastructure/messaging/nats"
 )
 
-func GetUsers(c *gin.Context) {
-	// TODO: Implement fetching users logic
-	c.JSON(http.StatusOK, gin.H{"message": "Get all users"})
+type UserHandler struct {
+	Service    *services.UserService
+	NATSClient *nats.NATSClient
 }
 
-func GetUserByID(c *gin.Context) {
-	id := c.Param("id")
-	// TODO: Implement fetching user by ID logic
-	c.JSON(http.StatusOK, gin.H{"message": "Get user by ID", "id": id})
+func NewUserHandler(db *sql.DB, natsClient *nats.NATSClient) *UserHandler {
+	repo := &repositories.UserRepository{DB: db}
+	service := &services.UserService{Repo: repo}
+	return &UserHandler{Service: service, NATSClient: natsClient}
 }
 
-func CreateUser(c *gin.Context) {
-	// TODO: Implement creating a user logic
-	c.JSON(http.StatusCreated, gin.H{"message": "User created"})
+func (h *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
+	users, err := h.Service.GetUsers()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(users)
 }
 
-func UpdateUser(c *gin.Context) {
-	id := c.Param("id")
-	// TODO: Implement updating a user logic
-	c.JSON(http.StatusOK, gin.H{"message": "User updated", "id": id})
-}
-
-func DeleteUser(c *gin.Context) {
-	id := c.Param("id")
-	// TODO: Implement deleting a user logic
-	c.JSON(http.StatusOK, gin.H{"message": "User deleted", "id": id})
-}
+// Add other CRUD methods similarly...
